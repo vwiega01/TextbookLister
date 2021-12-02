@@ -10,12 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TextbookLister">
         <activity
+            android:name=".AddBookActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.textbooklister.MainActivity" />
+        </activity>
+        <activity
             android:name=".BookDetail"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.textbooklister.MainActivity" /> </activity>
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.textbooklister.MainActivity" />
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

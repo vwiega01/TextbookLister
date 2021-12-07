@@ -29,6 +29,6 @@ public class BookDetail extends AppCompatActivity {
         mViewAuthor.setText("Author: " + MainActivity.selectedBook.author);
         mViewISBN.setText("ISBN: " + MainActivity.selectedBook.ISBN);
         mViewPrice.setText("Price: $" + MainActivity.selectedBook.price);
-        mViewEmail.setText("Contact " + MainActivity.selectedBook.email + " to purchase");
+        mViewEmail.setText("Contact " + MainActivity.selectedBook.email + " to purchase.");
     }
 }

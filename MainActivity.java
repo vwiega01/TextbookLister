@@ -12,27 +12,26 @@ import android.view.View;
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
-    private final LinkedList<String> mBooks = new LinkedList<>();
-    private final LinkedList<String> mDescriptions= new LinkedList<>();
+    public static final LinkedList<BookObject> mBooks = new LinkedList<>();
+    private final LinkedList<String> mTitles = new LinkedList<>();
+    private final LinkedList<String> mAuthors= new LinkedList<>();
     private RecyclerView mRecyclerView;
     private BookAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // add list of books
-        mBooks.add("Book1");
-        mDescriptions.add("d1");
-        mBooks.add("Book2");
-        mDescriptions.add("d2");
-        mBooks.add("Book3");
-        mDescriptions.add("d3");
-
+        setContentView (R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new BookAdapter(this, mBooks, mDescriptions);
+
+        for (int i = 0; i < mBooks.size(); i++) {
+            BookObject obj = mBooks.get(i);
+            mTitles.add(obj.title);
+            mAuthors.add(obj.author);
+        }
+
+        mAdapter = new BookAdapter(this, mTitles, mAuthors);
         mRecyclerView.setAdapter(mAdapter);
     }
 

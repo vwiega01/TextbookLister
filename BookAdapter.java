@@ -18,17 +18,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.WordViewHolder
     //the inflater creates the single item layout
     //see it used in onCreateViewHolder below
     private LayoutInflater mInflater;
-    private LinkedList<String> mBooks;
-    private LinkedList<String> mDescriptions;
+    private LinkedList<String> mTitles;
+    private LinkedList<String> mAuthors;
     private Context context;
 
     //the constructor can take any parameters we need
-    public BookAdapter(Context context, LinkedList<String> bookList,
-                         LinkedList<String> bookDescription) {
+    public BookAdapter(Context context, LinkedList<String> titleList,
+                         LinkedList<String> authorList) {
         //use this to create the layout
         mInflater = LayoutInflater.from(context);
-        mBooks = bookList;
-        mDescriptions = bookDescription;
+        mTitles = titleList;
+        mAuthors = authorList;
         this.context = context;
     }
 
@@ -41,16 +41,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.WordViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
-        String mRecipe = mBooks.get(position);
-        String mDescription = mDescriptions.get(position);
-        holder.mBookItemView.setText(mRecipe);
-        holder.mDescriptionItemView.setText(mDescription);
-
+        String mTitle = mTitles.get(position);
+        String mDescription = mAuthors.get(position);
+        holder.mTitleItemView.setText(mTitle);
+        holder.mAuthorItemView.setText(mDescription);
     }
 
     @Override
     public int getItemCount() {
-        return mBooks.size();
+        return mTitles.size();
     }
 
     //The RecyclerView.ViewHolder class must be an inner class
@@ -58,14 +57,14 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.WordViewHolder
     //WordViewHolder is the Java class that represents the wordlist_item.xml layout
     class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //instantiate any views used in the item layout here
-        private TextView mBookItemView;
-        private TextView mDescriptionItemView;
+        private TextView mTitleItemView;
+        private TextView mAuthorItemView;
         private BookAdapter adapter;
 
         public WordViewHolder(View itemView, BookAdapter adapter) {
             super(itemView);
-            mBookItemView = itemView.findViewById(R.id.book);
-            mDescriptionItemView = itemView.findViewById(R.id.description);
+            mTitleItemView = itemView.findViewById(R.id.title);
+            mAuthorItemView = itemView.findViewById(R.id.author);
             this.adapter = adapter;
             itemView.setOnClickListener(this);
         }

@@ -12,9 +12,9 @@ import android.view.View;
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
-    public static final LinkedList<BookObject> mBooks = new LinkedList<>();
-    private final LinkedList<String> mTitles = new LinkedList<>();
-    private final LinkedList<String> mAuthors= new LinkedList<>();
+    public static LinkedList<BookObject> mBooks = new LinkedList<>();
+    public LinkedList<String> mTitles = new LinkedList<>();
+    public LinkedList<String> mAuthors= new LinkedList<>();
     private RecyclerView mRecyclerView;
     private BookAdapter mAdapter;
 
@@ -27,12 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < mBooks.size(); i++) {
             BookObject obj = mBooks.get(i);
-            mTitles.add(obj.title);
-            mAuthors.add(obj.author);
+            mTitles.addFirst(obj.title);
+            mAuthors.addFirst(obj.author);
         }
 
         mAdapter = new BookAdapter(this, mTitles, mAuthors);
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     public void launchAddBookActivity(View view) {

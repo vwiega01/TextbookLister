@@ -6,17 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BookAdapter.OnBookListener {
     public static LinkedList<BookObject> mBooks = new LinkedList<>();
-    public LinkedList<String> mTitles = new LinkedList<>();
-    public LinkedList<String> mAuthors= new LinkedList<>();
     private RecyclerView mRecyclerView;
     private BookAdapter mAdapter;
+    public static BookObject selectedBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +23,20 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        for (int i = 0; i < mBooks.size(); i++) {
-            BookObject obj = mBooks.get(i);
-            mTitles.addFirst(obj.title);
-            mAuthors.addFirst(obj.author);
-        }
-
-        mAdapter = new BookAdapter(this, mTitles, mAuthors);
+        mAdapter = new BookAdapter(this, mBooks, this);
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
     public void launchAddBookActivity(View view) {
         Intent intent = new Intent(this, AddBookActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBookClick(int position) {
+        selectedBook = mBooks.get(position);
+        Intent intent = new Intent(this, BookDetail.class);
         startActivity(intent);
     }
 }

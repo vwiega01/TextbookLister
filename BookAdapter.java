@@ -4,76 +4,75 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.textbooklister.R;
-
 import java.util.LinkedList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.WordViewHolder>{
-    //the inflater creates the single item layout
-    //see it used in onCreateViewHolder below
     private LayoutInflater mInflater;
-    private LinkedList<String> mTitles;
-    private LinkedList<String> mAuthors;
+    private LinkedList<BookObject> mBooks;
     private Context context;
+    private OnBookListener mOnBookListener;
 
-    //the constructor can take any parameters we need
-    public BookAdapter(Context context, LinkedList<String> titleList,
-                         LinkedList<String> authorList) {
-        //use this to create the layout
+    public BookAdapter(Context context, LinkedList<BookObject> bookList, OnBookListener onBookListener) {
         mInflater = LayoutInflater.from(context);
-        mTitles = titleList;
-        mAuthors = authorList;
+        mBooks = bookList;
         this.context = context;
+        this.mOnBookListener = onBookListener;
     }
 
     @NonNull
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View mItemView = mInflater.inflate(R.layout.book_item, parent, false);
-        return new WordViewHolder(mItemView, this);
+        return new WordViewHolder(mItemView, this, mOnBookListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
-        String mTitle = mTitles.get(position);
-        String mDescription = mAuthors.get(position);
+        String mTitle = mBooks.get(position).title;
+        String mAuthor = mBooks.get(position).author;
         holder.mTitleItemView.setText(mTitle);
-        holder.mAuthorItemView.setText(mDescription);
+        holder.mAuthorItemView.setText(mAuthor);
+
+        BookObject book = mBooks.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return mTitles.size();
+        return mBooks.size();
     }
 
-    //The RecyclerView.ViewHolder class must be an inner class
-    //of the adapter class.
-    //WordViewHolder is the Java class that represents the wordlist_item.xml layout
-    class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        //instantiate any views used in the item layout here
+    class WordViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         private TextView mTitleItemView;
         private TextView mAuthorItemView;
         private BookAdapter adapter;
 
-        public WordViewHolder(View itemView, BookAdapter adapter) {
+        OnBookListener onBookListener;
+
+        public WordViewHolder(View itemView, BookAdapter adapter, OnBookListener onBookListener){
+
             super(itemView);
             mTitleItemView = itemView.findViewById(R.id.title);
             mAuthorItemView = itemView.findViewById(R.id.author);
             this.adapter = adapter;
+            this.onBookListener = onBookListener;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            onBookListener.onBookClick(getAdapterPosition());
             Intent intent = new Intent(context, BookDetail.class);
             context.startActivity(intent);
         }
     }
-
+    public interface OnBookListener {
+        void onBookClick(int position);
+    }
 }

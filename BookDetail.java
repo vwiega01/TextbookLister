@@ -3,7 +3,10 @@ package com.example.textbooklister;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class BookDetail extends AppCompatActivity {
@@ -15,7 +18,7 @@ public class BookDetail extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
 
@@ -29,6 +32,16 @@ public class BookDetail extends AppCompatActivity {
         mViewAuthor.setText("Author: " + MainActivity.selectedBook.author);
         mViewISBN.setText("ISBN: " + MainActivity.selectedBook.ISBN);
         mViewPrice.setText("Price: $" + MainActivity.selectedBook.price);
-        mViewEmail.setText("Contact " + MainActivity.selectedBook.email + " to purchase.");
+        mViewEmail.setText("Email " + MainActivity.selectedBook.email + " to purchase.");
+    }
+
+    public void goToAmazon(View view) {
+        goToUrl ("https://www.amazon.com/s?k="+ MainActivity.selectedBook.ISBN + "&ref=nb_sb_noss");
+    }
+
+    private void goToUrl(String url) {
+        Uri uriUrl = Uri.parse(url);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
     }
 }
